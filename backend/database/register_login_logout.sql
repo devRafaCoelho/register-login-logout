@@ -1,4 +1,4 @@
-create database bd_dindin
+create database register_login_logout
 
 create table usuarios(
 	id serial primary key,

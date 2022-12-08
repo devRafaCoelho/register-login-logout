@@ -9,13 +9,13 @@ const { editarUsuario } = require("./controllers/editarUsuario");
 const rotas = express();
 
 rotas.post("/cadastro", cadastrarUsuario);
-rotas.post("/login", realizarLogin);
+rotas.post("/", realizarLogin);
 
 rotas.use(verificarLogin);
 
-rotas.get("/usuario", detalharUsuario)
+rotas.get("/usuario", detalharUsuario);
 rotas.put("/usuario", editarUsuario);
 
 module.exports = {
-    rotas
-}
+    rotas,
+};
