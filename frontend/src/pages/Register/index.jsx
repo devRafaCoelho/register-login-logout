@@ -1,8 +1,9 @@
 import React from 'react';
-import { Container } from './styles';
 import FormRegister from '../../components/FormRegister';
+import { Container } from './styles';
 
-export default function PaginaCadastro() {
+
+export default function RegisterPage() {
     return (
         <Container>
             <FormRegister />

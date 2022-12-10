@@ -5,12 +5,14 @@ export default createGlobalStyle`
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        text-decoration: none;
-    }  
-    
-    button, input {
-        all: unset;
-        box-sizing: border-box;
-    }  
-    
+        
+    } 
+
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 `;

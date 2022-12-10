@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-
-import Button from '../Button';
-import InputContainer from '../InputContainer';
+import { Form, InputContainer, Button } from './styles';
 import api from '../../services/api';
-import { Form } from './styles';
 
 export default function FormRegister() {
     const [form, setForm] = useState({
@@ -27,12 +24,12 @@ export default function FormRegister() {
                 return
             }
 
-            await api.post('/cadastro', {
+            const response = await api.post('/cadastro', {
                 ...form
             })
 
+            console.log(response);
             setForm('');
-
         } catch (error) {
             console.log(error.response.data);
         }
@@ -44,41 +41,49 @@ export default function FormRegister() {
 
     return (
         <Form onSubmit={handleSubmit}>
-            <h1>Register</h1>
+            <InputContainer>
+                <label htmlFor="nome">Nome</label>
+                <input
+                    name="nome"
+                    type="text"
+                    value={form.nome ?? ''}
+                    onChange={handleChangeInputValue}
+                />
+            </InputContainer>
 
-            <InputContainer
-                name='nome'
-                type='text'
-                content='Nome'
-                value={form.nome ?? ''}
-                onChange={handleChangeInputValue}
-            />
+            <InputContainer>
+                <label htmlFor="email">E-mail</label>
+                <input
+                    name="email"
+                    type="email"
+                    value={form.email ?? ''}
+                    onChange={handleChangeInputValue}
+                />
+            </InputContainer>
 
-            <InputContainer
-                name='email'
-                type='email'
-                content='E-mail'
-                value={form.email ?? ''}
-                onChange={handleChangeInputValue}
-            />
+            <InputContainer>
+                <label htmlFor="senha">Senha</label>
+                <input
+                    name="senha"
+                    type="password"
+                    value={form.senha ?? ''}
+                    onChange={handleChangeInputValue}
+                />
+            </InputContainer>
 
-            <InputContainer
-                name='senha'
-                type='password'
-                content='Senha'
-                value={form.senha ?? ''}
-                onChange={handleChangeInputValue}
-            />
+            <InputContainer>
+                <label htmlFor="confirmacaoSenha">Confirmação de Senha</label>
+                <input
+                    name="confirmacaoSenha"
+                    type="password"
+                    value={form.confirmacaoSenha ?? ''}
+                    onChange={handleChangeInputValue}
+                />
+            </InputContainer>
 
-            <InputContainer
-                name='confirmacaoSenha'
-                type='password'
-                content='Confirmação da senha'
-                value={form.confirmacaoSenha ?? ''}
-                onChange={handleChangeInputValue}
-            />
-
-            <Button content='Cadastrar' />
+            <Button>
+                Register
+            </Button>
         </Form>
     );
 }
