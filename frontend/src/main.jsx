@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import RegisterPage from './pages/Register';
-import GlobalStyles from './styles/GlobalStyles';
+import { BrowserRouter } from 'react-router-dom';
+import RotasPrincipais from './routes';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <GlobalStyles />
-    <RegisterPage />
-  </React.StrictMode>,
+    <BrowserRouter>
+      <RotasPrincipais />
+    </BrowserRouter>
+  </React.StrictMode>
 )

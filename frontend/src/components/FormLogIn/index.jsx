@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
 import { Form, InputContainer, Button } from './styles';
+import { setItem, getItem } from '../../utils/storage';
 import api from '../../services/api';
+import { useNavigate } from 'react-router-dom';
 
-export default function FormRegister() {
+export default function FormLogIn() {
     const [form, setForm] = useState({
-        nome: '',
         email: '',
-        senha: '',
-        confirmacaoSenha: ''
+        senha: ''
     });
     const navigate = useNavigate();
 
@@ -16,26 +15,36 @@ export default function FormRegister() {
         event.preventDefault();
 
         try {
-            if (!form.nome || !form.email || !form.senha || !form.confirmacaoSenha) {
+            if (!form.email || !form.senha) {
                 alert('Preencha todos os campos');
                 return;
             }
 
-            if (form.senha !== form.confirmacaoSenha) {
-                alert('As senhas precisam ser iguais!');
-                return
-            }
-
-            await api.post('/cadastro', {
+            const response = await api.post('/login', {
                 ...form
-            })
+            });
+
+            const { token } = response.data;
+            setItem('token', token);
+
+            const { nome, email } = response.data.usuario;
+            setItem('nome', nome);
+            setItem('email', email);
 
             setForm('');
-            navigate('/');
+            navigate('/home');
         } catch (error) {
             console.log(error.response.data);
         }
     }
+
+    useEffect(() => {
+        const token = getItem('token');
+
+        if (token) {
+            navigate('/');
+        }
+    }, []);
 
     function handleChangeInputValue(event) {
         setForm({ ...form, [event.target.name]: event.target.value });
@@ -43,16 +52,6 @@ export default function FormRegister() {
 
     return (
         <Form onSubmit={handleSubmit}>
-            <InputContainer>
-                <label htmlFor="nome">Nome</label>
-                <input
-                    name="nome"
-                    type="text"
-                    value={form.nome ?? ''}
-                    onChange={handleChangeInputValue}
-                />
-            </InputContainer>
-
             <InputContainer>
                 <label htmlFor="email">E-mail</label>
                 <input
@@ -73,19 +72,11 @@ export default function FormRegister() {
                 />
             </InputContainer>
 
-            <InputContainer>
-                <label htmlFor="confirmacaoSenha">Confirmação de Senha</label>
-                <input
-                    name="confirmacaoSenha"
-                    type="password"
-                    value={form.confirmacaoSenha ?? ''}
-                    onChange={handleChangeInputValue}
-                />
-            </InputContainer>
-
             <Button>
-                Register
+                LogIn
             </Button>
         </Form>
     );
+
+
 }
