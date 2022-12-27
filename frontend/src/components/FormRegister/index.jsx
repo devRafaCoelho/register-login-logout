@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Form, InputContainer, Button } from './styles';
 import api from '../../services/api';
 import { useForm } from 'react-hook-form';
@@ -37,6 +37,8 @@ export default function FormRegister() {
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
+            <h1>Register</h1>
+
             <InputContainer>
                 <label htmlFor="nome">Nome</label>
                 <input
@@ -80,6 +82,10 @@ export default function FormRegister() {
             <Button>
                 Register
             </Button>
+
+            <p>
+                Já tem cadastro? <Link to='/'>Clique Aqui!</Link>
+            </p>
         </Form>
     );
 }

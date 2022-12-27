@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { Form, InputContainer, Button } from './styles';
 import api from '../../services/api'
 import { setItem, getItem } from '../../utils/storage';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function CardLogin() {
     const schema = yup.object().shape({
@@ -50,6 +50,8 @@ export default function CardLogin() {
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
+            <h1>LogIn</h1>
+
             <InputContainer>
                 <label htmlFor="email">E-mail</label>
                 <input
@@ -71,6 +73,10 @@ export default function CardLogin() {
             </InputContainer>
 
             <Button>LogIn</Button>
+
+            <p>
+                Ainda não tem conta? <Link to='/cadastro'>Cadastre-se!</Link>
+            </p>
         </Form>
     );
 }
