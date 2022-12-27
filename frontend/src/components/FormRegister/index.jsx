@@ -1,55 +1,49 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'
+import React from 'react';
+import { useNavigate } from 'react-router-dom'
 import { Form, InputContainer, Button } from './styles';
 import api from '../../services/api';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 export default function FormRegister() {
-    const [form, setForm] = useState({
-        nome: '',
-        email: '',
-        senha: '',
-        confirmacaoSenha: ''
+    const schema = yup.object().shape({
+        nome: yup.string().required("Por favor, digite seu nome!"),
+        email: yup.string().email().required("Por favor, digite seu email!"),
+        senha: yup.string().min(4).max(10).required("Por favor, digite sua senha"),
+        confirmarSenha: yup.string().oneOf([yup.ref('senha'), null]).required("Por favor, digite sua senha")
     });
+
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        resolver: yupResolver(schema)
+    });
+
     const navigate = useNavigate();
 
-    async function handleSubmit(event) {
-        event.preventDefault();
-
+    async function onSubmit(data) {
         try {
-            if (!form.nome || !form.email || !form.senha || !form.confirmacaoSenha) {
-                alert('Preencha todos os campos');
-                return;
-            }
-
-            if (form.senha !== form.confirmacaoSenha) {
-                alert('As senhas precisam ser iguais!');
-                return
-            }
-
-            await api.post('/cadastro', {
-                ...form
+            const response = await api.post('/cadastro', {
+                nome: data.nome,
+                email: data.email,
+                senha: data.senha
             })
+            console.log(response.data);
 
-            setForm('');
             navigate('/');
         } catch (error) {
             console.log(error.response.data);
         }
     }
 
-    function handleChangeInputValue(event) {
-        setForm({ ...form, [event.target.name]: event.target.value });
-    }
-
     return (
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
             <InputContainer>
                 <label htmlFor="nome">Nome</label>
                 <input
                     name="nome"
                     type="text"
-                    value={form.nome ?? ''}
-                    onChange={handleChangeInputValue}
+                    placeholder={errors.nome?.message}
+                    {...register("nome")}
                 />
             </InputContainer>
 
@@ -58,8 +52,8 @@ export default function FormRegister() {
                 <input
                     name="email"
                     type="email"
-                    value={form.email ?? ''}
-                    onChange={handleChangeInputValue}
+                    placeholder={errors.email?.message}
+                    {...register("email")}
                 />
             </InputContainer>
 
@@ -68,8 +62,8 @@ export default function FormRegister() {
                 <input
                     name="senha"
                     type="password"
-                    value={form.senha ?? ''}
-                    onChange={handleChangeInputValue}
+                    placeholder={errors.senha?.message}
+                    {...register("senha")}
                 />
             </InputContainer>
 
@@ -78,8 +72,8 @@ export default function FormRegister() {
                 <input
                     name="confirmacaoSenha"
                     type="password"
-                    value={form.confirmacaoSenha ?? ''}
-                    onChange={handleChangeInputValue}
+                    placeholder={errors.confirmarSenha?.message}
+                    {...register("confirmarSenha")}
                 />
             </InputContainer>
 
