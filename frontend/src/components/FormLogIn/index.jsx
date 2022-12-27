@@ -1,28 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import { Form, InputContainer, Button } from './styles';
+import api from '../../services/api'
 import { setItem, getItem } from '../../utils/storage';
-import api from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 
-export default function FormLogIn() {
-    const [form, setForm] = useState({
-        email: '',
-        senha: ''
+export default function CardLogin() {
+    const schema = yup.object().shape({
+        email: yup.string().email().required("Por favor, informe seu email!"),
+        senha: yup.string().min(4).max(10).required("Por favor, informe sua senha!"),
     });
+
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        resolver: yupResolver(schema)
+    });
+
     const navigate = useNavigate();
 
-    async function handleSubmit(event) {
-        event.preventDefault();
-
+    async function onSubmit(data) {
         try {
-            if (!form.email || !form.senha) {
-                alert('Preencha todos os campos');
-                return;
-            }
+            const response = await api.post('/', {
+                email: data.email,
+                senha: data.senha
+            })
+            console.log(response.data);
 
-            const response = await api.post('/login', {
-                ...form
-            });
 
             const { token } = response.data;
             setItem('token', token);
@@ -30,8 +34,6 @@ export default function FormLogIn() {
             const { nome, email } = response.data.usuario;
             setItem('nome', nome);
             setItem('email', email);
-
-            setForm('');
             navigate('/home');
         } catch (error) {
             console.log(error.response.data);
@@ -46,19 +48,15 @@ export default function FormLogIn() {
         }
     }, []);
 
-    function handleChangeInputValue(event) {
-        setForm({ ...form, [event.target.name]: event.target.value });
-    }
-
     return (
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
             <InputContainer>
                 <label htmlFor="email">E-mail</label>
                 <input
                     name="email"
                     type="email"
-                    value={form.email ?? ''}
-                    onChange={handleChangeInputValue}
+                    placeholder={errors.email?.message}
+                    {...register("email")}
                 />
             </InputContainer>
 
@@ -67,16 +65,12 @@ export default function FormLogIn() {
                 <input
                     name="senha"
                     type="password"
-                    value={form.senha ?? ''}
-                    onChange={handleChangeInputValue}
+                    placeholder={errors.senha?.message}
+                    {...register("senha")}
                 />
             </InputContainer>
 
-            <Button>
-                LogIn
-            </Button>
+            <Button>LogIn</Button>
         </Form>
     );
-
-
 }
