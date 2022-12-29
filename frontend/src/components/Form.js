@@ -11,7 +11,8 @@ export const Form = styled.form`
     gap: 31px;
 
     border-radius: 2px;
-    background-color: #ffffff;
+    background-color: ${({ theme }) => theme.colors.white};
+    box-shadow: ${({ theme }) => theme.colors.blackShadow} 0px 5px 15px;
 
     h1 {
         margin: 61px 0 0;
@@ -20,7 +21,7 @@ export const Form = styled.form`
         line-height: 2.0625rem;
         font-weight: 500;
 
-        color: #7978d9;
+        color: ${({ theme }) => theme.colors.purpleButton};
     }
 
     p {
@@ -31,11 +32,11 @@ export const Form = styled.form`
         line-height: 1.0625rem;
         font-family: "Lato", sans-serif;
 
-        color: #7b61ff;
+        color: ${({ theme }) => theme.colors.purpleContent};
     }
 
     a {
-        color: #7b61ff;
+        color: ${({ theme }) => theme.colors.purpleContent};
 
         &:hover {
             opacity: 0.7;

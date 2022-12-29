@@ -20,8 +20,8 @@ export const Container = styled.button`
     cursor: pointer;
     transition: all 0.1s ease-in;
 
-    color: #ffffff;
-    background-color: #7978d9;
+    color: ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.purpleButton};
 
     &:hover {
         opacity: 0.9;

@@ -7,7 +7,7 @@ export const InputContainer = styled.div`
     flex-direction: column;
     gap: 8px;
 
-    color: #484848;
+    color: ${({ theme }) => theme.colors.gray};
 
     label {
         font-size: 1.125rem;
@@ -22,8 +22,8 @@ export const InputContainer = styled.div`
         line-height: 1.3125rem;
 
         border-radius: 5px;
-        border: 1px solid #555555;
-        color: #000000;
-        background-color: #ffffff;
+        border: 1px solid ${({ theme }) => theme.colors.grayInputBorder};
+        color: ${({ theme }) => theme.colors.black};
+        background-color: ${({ theme }) => theme.colors.white};
     }
 `;
