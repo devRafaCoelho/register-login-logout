@@ -10,10 +10,10 @@ import api from '../../services/api';
 
 export default function RegisterPage() {
     const schema = yup.object().shape({
-        nome: yup.string().required("Por favor, digite seu nome!"),
-        email: yup.string().email().required("Por favor, digite seu email!"),
-        senha: yup.string().min(4).max(10).required("Por favor, digite sua senha"),
-        confirmarSenha: yup.string().oneOf([yup.ref('senha'), null]).required("Por favor, digite sua senha")
+        name: yup.string().required("Name is required"),
+        email: yup.string().email().required("Email is required!"),
+        password: yup.string().min(4).max(10).required("Password is required!"),
+        confirmPassword: yup.string().oneOf([yup.ref('password'), null]).required("Password is required!")
     });
 
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -24,10 +24,10 @@ export default function RegisterPage() {
 
     async function onSubmit(data) {
         try {
-            const response = await api.post('/cadastro', {
-                nome: data.nome,
+            const response = await api.post('/register', {
+                name: data.name,
                 email: data.email,
-                senha: data.senha
+                password: data.password
             })
             console.log(response.data);
 
@@ -42,13 +42,12 @@ export default function RegisterPage() {
             <h1>Register</h1>
 
             <InputContainer>
-                <label htmlFor="nome">Nome</label>
+                <label htmlFor="name">Name</label>
                 <input
-                    name="nome"
-                    content="Nome"
+                    name="name"
                     type="text"
-                    placeholder={errors.nome?.message}
-                    {...register("nome")}
+                    placeholder={errors.name?.message}
+                    {...register("name")}
                 />
             </InputContainer>
 
@@ -56,7 +55,6 @@ export default function RegisterPage() {
                 <label htmlFor="email">E-mail</label>
                 <input
                     name="email"
-                    content="E-mail"
                     type="email"
                     placeholder={errors.email?.message}
                     {...register("email")}
@@ -64,24 +62,22 @@ export default function RegisterPage() {
             </InputContainer>
 
             <InputContainer>
-                <label htmlFor="senha">Senha</label>
+                <label htmlFor="password">Password</label>
                 <input
-                    name="senha"
-                    content="Senha"
+                    name="password"
                     type="password"
-                    placeholder={errors.senha?.message}
-                    {...register("senha")}
+                    placeholder={errors.password?.message}
+                    {...register("password")}
                 />
             </InputContainer>
 
             <InputContainer>
-                <label htmlFor="confirmarSenha">Confirmar Senha</label>
+                <label htmlFor="confirmPassword">Confirm Password</label>
                 <input
-                    name="confirmarSenha"
-                    content="Confirmação de Senha"
+                    name="confirmPassword"
                     type="password"
-                    placeholder={errors.confirmarSenha?.message}
-                    {...register("confirmarSenha")}
+                    placeholder={errors.confirmPassword?.message}
+                    {...register("confirmPassword")}
                 />
             </InputContainer>
 
