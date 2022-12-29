@@ -1,9 +1,9 @@
 create database register_login_logout
 
-create table usuarios(
+create table users(
 	id serial primary key,
-  	nome text not null,
+  	name text not null,
   	email varchar(40) not null unique,
-  	senha text not null	
+  	password text not null	
 );
 
