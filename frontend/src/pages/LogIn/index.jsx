@@ -12,7 +12,7 @@ import { getItem, setItem } from '../../utils/storage';
 export default function LogInPage() {
     const schema = yup.object().shape({
         email: yup.string().email().required("Por favor, informe seu email!"),
-        senha: yup.string().min(4).max(10).required("Por favor, informe sua senha!"),
+        password: yup.string().min(4).max(10).required("Por favor, informe sua password!"),
     });
 
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -25,19 +25,19 @@ export default function LogInPage() {
         try {
             const response = await api.post('/', {
                 email: data.email,
-                senha: data.senha
+                password: data.password
             })
             console.log(response.data);
 
             const { token } = response.data;
             setItem('token', token);
 
-            const { nome, email } = response.data.usuario;
-            setItem('nome', nome);
+            const { name, email } = response.data.user;
+            setItem('name', name);
             setItem('email', email);
             navigate('/home');
         } catch (error) {
-            console.log(error.response.data);
+            console.log(error.response);
         }
     }
 
@@ -57,7 +57,6 @@ export default function LogInPage() {
                 <label htmlFor="email">E-mail</label>
                 <input
                     name="email"
-                    content="E-mail"
                     type="email"
                     placeholder={errors.email?.message}
                     {...register("email")}
@@ -65,20 +64,19 @@ export default function LogInPage() {
             </InputContainer>
 
             <InputContainer>
-                <label htmlFor="senha">Senha</label>
+                <label htmlFor="password">Password</label>
                 <input
-                    name="senha"
-                    content="Senha"
+                    name="password"
                     type="password"
-                    placeholder={errors.senha?.message}
-                    {...register("senha")}
+                    placeholder={errors.password?.message}
+                    {...register("password")}
                 />
             </InputContainer>
 
             <Button content="LogIn" />
 
             <p>
-                Ainda não tem conta? <Link to='/cadastro'>Cadastre-se!</Link>
+                Ainda não tem conta? <Link to='/register'>Cadastre-se!</Link>
             </p>
         </Form>
     );

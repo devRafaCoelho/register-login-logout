@@ -12,12 +12,12 @@ function RotasProtegidas({ redirectTo }) {
     return isAuth ? <Outlet /> : <Navigate to={redirectTo} />;
 }
 
-export default function RotasPrincipais() {
+export default function MainRoutes() {
     return (
         <ThemeProvider theme={theme}>
             <Routes>
                 <Route path="/" element={<LogInPage />} />
-                <Route path="/cadastro" element={<RegisterPage />} />
+                <Route path="/register" element={<RegisterPage />} />
                 <Route element={<RotasProtegidas redirectTo="/" />}>
                     <Route path="/home" element={<HomePage />} />
                 </Route>
