@@ -5,9 +5,9 @@ import HomePage from "./pages/Home";
 import { getItem } from "./utils/storage";
 
 function RotasProtegidas({ redirectTo }) {
-    const autenticado = getItem("token");
+    const isAuth = getItem("token");
 
-    return autenticado ? <Outlet /> : <Navigate to={redirectTo} />;
+    return isAuth ? <Outlet /> : <Navigate to={redirectTo} />;
 }
 
 export default function RotasPrincipais() {

@@ -3,11 +3,10 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import api from '../../services/api';
 import Button from '../../components/Button';
+import { Form } from '../../components/Form';
 import { InputContainer } from '../../components/InputContainer';
-import { Form } from '../../styles/Form';
-
+import api from '../../services/api';
 
 export default function RegisterPage() {
     const schema = yup.object().shape({
@@ -42,37 +41,49 @@ export default function RegisterPage() {
         <Form onSubmit={handleSubmit(onSubmit)}>
             <h1>Register</h1>
 
-            <InputContainer
-                name="nome"
-                content="Nome"
-                type="text"
-                placeholder={errors.nome?.message}
-                ref={register("nome")}
-            />
+            <InputContainer>
+                <label htmlFor="nome">Nome</label>
+                <input
+                    name="nome"
+                    content="Nome"
+                    type="text"
+                    placeholder={errors.nome?.message}
+                    {...register("nome")}
+                />
+            </InputContainer>
 
-            <InputContainer
-                name="email"
-                content="E-mail"
-                type="email"
-                placeholder={errors.email?.message}
-                ref={register("email")}
-            />
+            <InputContainer>
+                <label htmlFor="email">E-mail</label>
+                <input
+                    name="email"
+                    content="E-mail"
+                    type="email"
+                    placeholder={errors.email?.message}
+                    {...register("email")}
+                />
+            </InputContainer>
 
-            <InputContainer
-                name="senha"
-                content="Senha"
-                type="password"
-                placeholder={errors.senha?.message}
-                ref={register("senha")}
-            />
+            <InputContainer>
+                <label htmlFor="senha">Senha</label>
+                <input
+                    name="senha"
+                    content="Senha"
+                    type="password"
+                    placeholder={errors.senha?.message}
+                    {...register("senha")}
+                />
+            </InputContainer>
 
-            <InputContainer
-                name="confirmacaoSenha"
-                content="Confirmação de Senha"
-                type="password"
-                placeholder={errors.confirmarSenha?.message}
-                ref={register("confirmarSenha")}
-            />
+            <InputContainer>
+                <label htmlFor="confirmarSenha">Confirmar Senha</label>
+                <input
+                    name="confirmarSenha"
+                    content="Confirmação de Senha"
+                    type="password"
+                    placeholder={errors.confirmarSenha?.message}
+                    {...register("confirmarSenha")}
+                />
+            </InputContainer>
 
             <Button content="Register" />
 

@@ -1,17 +1,17 @@
 import React from "react";
 import { logOut } from "../../utils/storage";
-import { Container } from './styles';
 import Button from '../../components/Button';
+import { Form } from '../../components/Form';
 
 export default function HomePage() {
     return (
-        <Container>
+        <Form>
             <h1>Home Page</h1>
 
             <Button
                 content="LogOut"
                 onClick={logOut}
             />
-        </Container>
+        </Form>
     );
 }

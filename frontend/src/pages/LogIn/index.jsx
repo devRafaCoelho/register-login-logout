@@ -3,11 +3,11 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import api from '../../services/api';
-import { getItem, setItem } from '../../utils/storage';
 import Button from '../../components/Button';
+import api from '../../services/api';
+import { Form } from '../../components/Form';
 import { InputContainer } from '../../components/InputContainer';
-import { Form } from '../../styles/Form';
+import { getItem, setItem } from '../../utils/storage';
 
 export default function LogInPage() {
     const schema = yup.object().shape({
@@ -28,7 +28,6 @@ export default function LogInPage() {
                 senha: data.senha
             })
             console.log(response.data);
-
 
             const { token } = response.data;
             setItem('token', token);
@@ -54,21 +53,27 @@ export default function LogInPage() {
         <Form onSubmit={handleSubmit(onSubmit)}>
             <h1>LogIn</h1>
 
-            <InputContainer
-                name="email"
-                content="E-mail"
-                type="email"
-                placeholder={errors.email?.message}
-                ref={register("email")}
-            />
+            <InputContainer>
+                <label htmlFor="email">E-mail</label>
+                <input
+                    name="email"
+                    content="E-mail"
+                    type="email"
+                    placeholder={errors.email?.message}
+                    {...register("email")}
+                />
+            </InputContainer>
 
-            <InputContainer
-                name="senha"
-                content="Senha"
-                type="password"
-                placeholder={errors.senha?.message}
-                ref={register("senha")}
-            />
+            <InputContainer>
+                <label htmlFor="senha">Senha</label>
+                <input
+                    name="senha"
+                    content="Senha"
+                    type="password"
+                    placeholder={errors.senha?.message}
+                    {...register("senha")}
+                />
+            </InputContainer>
 
             <Button content="LogIn" />
 

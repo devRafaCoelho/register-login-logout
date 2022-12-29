@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const InputContainer = styled.div`
     width: 100%;
 
     display: flex;
@@ -17,9 +17,6 @@ export const Container = styled.div`
     input {
         height: 63px;
         padding: 0 24px;
-
-        display: flex;
-        align-items: center;
 
         font-size: 1.125rem;
         line-height: 1.3125rem;
