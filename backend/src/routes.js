@@ -1,13 +1,13 @@
 const express = require("express");
 
 const { registerUser } = require("./controllers/registerUser");
-const { realizarLogin } = require("./controllers/realizarLogin");
+const { logIn } = require("./controllers/logIn");
 const { verificarLogin } = require("./middleware/verificarLogin");
 
 const rotas = express();
 
 rotas.post("/register", registerUser);
-rotas.post("/", realizarLogin);
+rotas.post("/", logIn);
 
 rotas.use(verificarLogin);
 
